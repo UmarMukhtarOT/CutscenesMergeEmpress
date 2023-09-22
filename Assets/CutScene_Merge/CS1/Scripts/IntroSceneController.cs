@@ -170,7 +170,7 @@ public class IntroSceneController : CutScenesCommon
 
 
            
-
+           
 
             twoEnemyScene.Enemy[0].DOFade(1, 1);
             twoEnemyScene.Soldier[0].DOFade(1, 1);
