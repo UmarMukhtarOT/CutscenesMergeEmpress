@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19b38093ec0974ead94e58f69bcfaa10, type: 3}
+  m_Name: Shortcuts
+  m_EditorClassIdentifier: 
+  columns: 3
+  types:
+  - columnTitle: Scene
+    typeName: Scene
+    foldout: 1
+    guids:
+    - 3443916ab22934541a3a318e85995e4b
+    - c5ba985848c682245ac0afa55ef0bee0
+    - 1d2abfc54b8aa424b8226c3d7e2902de

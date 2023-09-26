@@ -7,61 +7,6 @@ using TMPro;
 
 
 [Serializable]
-public class TwoEnemyScene 
-{
-    
-    public SpriteRenderer BushOnGround;
-    public SpriteRenderer Enemy;
-    public SpriteRenderer Soldier;
-    public SpriteRenderer FadeScreen;
-    public SpriteRenderer[] ArmsOfBoth;
-
-}
-[Serializable]
-public class KingScene 
-{
-    
-    public SpriteRenderer KingSky;
-    public SpriteRenderer BGMountains;
-    public SpriteRenderer GroundWithSword;
-    public SpriteRenderer King1;
-    public SpriteRenderer King2;
-    public SpriteRenderer FadeScreen;
-
-    //public Transform KingCamera;
-    public Vector3 CamPos;
-    public SpriteRenderer[] AllKingSprites;
-    
-
-}
-
-
-[Serializable]
-public class PrincessScene
-{
-    public Vector3 CamPos;
-    public Vector3 ZoomedInPos;
-    public Vector3 CamFinalZoomPos;
-    public SpriteRenderer Castle;
-    public SpriteRenderer Trees;
-    public SpriteRenderer Clouds;
-    public SpriteRenderer Balcony;
-    public SpriteRenderer FadeScreen;
-    public Transform bg;
-    public SpriteRenderer[] CastleSprites;
-    public SpriteRenderer[] BalconySprites;
-
-    
-
-    
-
-}
-
-
-
-
-
-[Serializable]
 public class Audios
 {
     public AudioClip[] LighteningAudio;
@@ -74,6 +19,60 @@ public class Audios
 
 
 }
+
+[Serializable]
+public class TwoEnemyScene 
+{
+    public GameObject ParentObj;
+
+    public SpriteRenderer BushOnGround;
+    public SpriteRenderer Enemy;
+    public SpriteRenderer Soldier;
+    public SpriteRenderer FadeScreen;
+    public SpriteRenderer[] ArmsOfBoth;
+
+}
+[Serializable]
+public class KingScene 
+{
+    public GameObject ParentObj;
+
+    public SpriteRenderer KingSky;
+    public SpriteRenderer BGMountains;
+    public SpriteRenderer GroundWithSword;
+    public SpriteRenderer King1;
+    public SpriteRenderer King2;
+    public SpriteRenderer FadeScreen;
+
+   
+    public Vector3 CamPos;
+    public SpriteRenderer[] AllKingSprites;
+    
+
+}
+
+
+[Serializable]
+public class PrincessScene
+{
+
+    public GameObject ParentObj;
+    public Vector3 CamPos;
+    public Vector3 ZoomedInPos;
+    public SpriteRenderer Castle;
+    public SpriteRenderer Trees;
+    public SpriteRenderer Clouds;
+    public SpriteRenderer Balcony;
+    public SpriteRenderer FadeScreen;
+    public Transform bg;
+    public SpriteRenderer[] CastleSprites;
+    public SpriteRenderer[] BalconySprites;
+
+}
+
+
+
+
 
 
 
@@ -97,16 +96,19 @@ public class IntroSceneController : CutScenesCommon
     public SpriteRenderer[] NightSpr;
     public SpriteRenderer[] DaySpr;
     public SpriteRenderer[] BattleSceneSpr;
+    public GameObject BattleSceneParentObj;
+    public GameObject FirstSceneParent;
     
 
+
+   
+
+    public Audios audios;
 
     public TwoEnemyScene twoEnemyScene;
     public KingScene kingScene;
     public PrincessScene princessScene;
-
-    public Audios audios;
-
-
+    
 
 
     private void Awake()
@@ -115,7 +117,7 @@ public class IntroSceneController : CutScenesCommon
     }
 
 
-    // Start is called before the first frame update
+ 
     public override void Start()
     {
         
@@ -123,16 +125,13 @@ public class IntroSceneController : CutScenesCommon
         Rain.gameObject.SetActive(false);
         Lightening.SetActive(false);
          StartCoroutine(Cutscene());
-        //SetPrincessScene();
+        
     }
 
 
     IEnumerator Cutscene()
     {
-
-       
-
-        
+        FirstSceneParent.SetActive(true);
         yield return new WaitForSeconds(Dur.InitialDelay);
         
         audios.AS_BG.Play();
@@ -152,13 +151,13 @@ public class IntroSceneController : CutScenesCommon
 
         Cam.DOMoveZ(-15, Dur.CamZoom);
         yield return new WaitForSeconds(4);
-
+        //=================================================================================================================
         DayToNight();
-        //yield return new WaitForSeconds(2);
+        
         audios.LightAS.PlayOneShot(audios.LighteningAudio[0]);
         Lightening.SetActive(true);
 
-       // yield return new WaitForSeconds(1);
+      
 
         Rain.gameObject.SetActive(true);
         Rain.GetComponent<SpriteRenderer>().DOFade(1,2);
@@ -166,17 +165,12 @@ public class IntroSceneController : CutScenesCommon
 
 
         Cam.DORotate(Vector3.zero, Dur.CamZoom);
-        Cam.DOMoveX(-12, Dur.CamZoom/2).SetEase(Ease.InOutQuad).OnComplete(() => 
-        {
-           
-        
-        
-        });
-
+        Cam.DOMoveX(-12, Dur.CamZoom / 2).SetEase(Ease.InOutQuad);
 
 
 
         StartCoroutine(PlayAudio(NarrationClips[1], Narrations[1]));//Now Faces
+        //=================================================================================================================
 
         showBattle();
 
@@ -187,11 +181,12 @@ public class IntroSceneController : CutScenesCommon
 
         StartCoroutine(PlayAudio(NarrationClips[2], Narrations[2]));//As your army.. spirit forces
         yield return new WaitForSeconds(1);
-      
-
-        
 
 
+
+
+
+        //=================================================================================================================
 
         Start2EnemyScene();
 
@@ -200,11 +195,14 @@ public class IntroSceneController : CutScenesCommon
         
         twoEnemyScene.FadeScreen.DOFade(1,3f).OnComplete(()=> 
         {
+            //=================================================================================================================
+            FirstSceneParent.SetActive(false);
             SetKingScene();
         
         
         });
         yield return new WaitForSeconds(8);
+        //=================================================================================================================
 
         SetPrincessScene();
 
@@ -212,22 +210,7 @@ public class IntroSceneController : CutScenesCommon
 
 
     }
-    IEnumerator PlayAudio(AudioClip AC, string str)
-    {
-
-        Narrtext.gameObject.SetActive(true);
-
-        Narrtext.text = "";
-        Narrtext.text = str;
-
-        Narr_AS.Stop();
-        Narr_AS.PlayOneShot(AC);
-        yield return new WaitUntil(() => Narr_AS.isPlaying == false);
-
-        yield return new WaitForSeconds(2);
-        Narrtext.gameObject.SetActive(false);
-
-    }
+    
 
     void showBattle()
     {
@@ -244,7 +227,7 @@ public class IntroSceneController : CutScenesCommon
 
     void DayToNight() 
     {
-
+        BattleSceneParentObj.gameObject.SetActive(true);
         NightSpr[0].DOFade(1, Dur.DayToNight);
         NightSpr[1].DOFade(1, Dur.DayToNight);
         NightSpr[2].DOFade(1, Dur.DayToNight);
@@ -269,6 +252,7 @@ public class IntroSceneController : CutScenesCommon
 
     void Start2EnemyScene()
     {
+        twoEnemyScene.ParentObj.SetActive(true);
       
         twoEnemyScene.Enemy.DOFade(1, 1);
         twoEnemyScene.Soldier.DOFade(1, 1);
@@ -286,14 +270,15 @@ public class IntroSceneController : CutScenesCommon
 
     void SetKingScene()
     {
-        audios.AS_WarZone.DOFade(0,4);
+        kingScene.ParentObj.SetActive(true);
+        audios.AS_WarZone.DOFade(0,10);
         Cam.transform.position = kingScene.CamPos;
         Rain.gameObject.SetActive(false);
         kingScene.FadeScreen.gameObject.SetActive(true);
         SetAmbience(audios.Amb[3]);//Sand
         audios.AS_Ambience.volume = 0.2f;
         audios.AS_WarZone.Stop();
-        kingScene.FadeScreen.DOFade(0, 3);
+        kingScene.FadeScreen.DOFade(0, 3).OnComplete(()=> { twoEnemyScene.ParentObj.SetActive(false); });
 
         kingScene.GroundWithSword.transform.DOLocalMoveX(-13, 12);
         kingScene.BGMountains.transform.DOLocalMoveX(-16, 12);
@@ -303,17 +288,20 @@ public class IntroSceneController : CutScenesCommon
         kingScene.King1.DOFade(0, 1.5f).SetDelay(2).SetEase(Ease.InQuad);
         kingScene.King2.DOFade(1, 1.5f).SetDelay(2).SetEase(Ease.OutQuad);
 
+        BattleSceneParentObj.SetActive(false);
 
     }
 
     void SetPrincessScene() 
     {
+        princessScene.ParentObj.SetActive(true);
         kingScene.FadeScreen.gameObject.SetActive(true);
         princessScene.bg.DOLocalMoveX(-5,10).SetEase(Ease.InQuad);
         kingScene.FadeScreen.DOFade(1,2).OnComplete(()=> 
         {
 
             Cam.transform.position = princessScene.CamPos;
+            kingScene.ParentObj.SetActive(false);
 
 
         });
@@ -342,7 +330,8 @@ public class IntroSceneController : CutScenesCommon
                 {
 
                     audios.AS_Ambience.DOFade(0, 2);
-                    audios.AS_BG.DOFade(0, 2);
+                    audios.AS_BG.DOFade(0, 2).OnComplete(() => { DOTween.PauseAll();  });
+                    
                 
                 
                 });
@@ -358,35 +347,39 @@ public class IntroSceneController : CutScenesCommon
     }
 
 
+    //void SetAmbience(AudioClip clip)
+    //{
+        
 
-
-
-
-
-
-
-
-
-
-
-
-    void SetAmbience(AudioClip clip)
-    {
-
-        audios.AS_Ambience.DOFade(0, 0.4f).OnComplete(()=>
-        { 
+    //    audios.AS_Ambience.DOFade(0, 0.4f).OnComplete(()=>
+    //    { 
             
-            audios.AS_Ambience.clip = clip;
-            audios.AS_Ambience.Play();
-            audios.AS_Ambience.DOFade(0.2f, 0.4f);
+    //        audios.AS_Ambience.clip = clip;
+    //        audios.AS_Ambience.Play();
+    //        audios.AS_Ambience.DOFade(0.2f, 0.4f);
 
 
-        });
+    //    });
         
        
 
 
-    }
+    //}
 
+    //IEnumerator PlayAudio(AudioClip AC, string str)
+    //{
 
+    //    Narrtext.gameObject.SetActive(true);
+
+    //    Narrtext.text = "";
+    //    Narrtext.text = str;
+
+    //    Narr_AS.Stop();
+    //    Narr_AS.PlayOneShot(AC);
+    //    yield return new WaitUntil(() => Narr_AS.isPlaying == false);
+
+    //    yield return new WaitForSeconds(2);
+    //    Narrtext.gameObject.SetActive(false);
+
+    //}
 }

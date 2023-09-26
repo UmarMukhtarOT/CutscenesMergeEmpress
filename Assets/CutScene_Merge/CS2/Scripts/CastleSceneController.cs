@@ -124,23 +124,23 @@ public class CastleSceneController : CutScenesCommon
 
 
 
-    void PlayAudio(AudioClip AC, string str)
-    {
+    //void PlayAudio(AudioClip AC, string str)
+    //{
         
-        //if (TypeCor != null)
-        //{
-        //    StopCoroutine(TypeCor);
-        //}
-        //TypeCor = base.TypingText(str);
-        //StartCoroutine(TypeCor);
+    //    //if (TypeCor != null)
+    //    //{
+    //    //    StopCoroutine(TypeCor);
+    //    //}
+    //    //TypeCor = base.TypingText(str);
+    //    //StartCoroutine(TypeCor);
 
-        Narrtext.text = "";
-        Narrtext.text = str;
-        Narr_AS.Stop();
-        Narr_AS.PlayOneShot(AC);
+    //    Narrtext.text = "";
+    //    Narrtext.text = str;
+    //    Narr_AS.Stop();
+    //    Narr_AS.PlayOneShot(AC);
 
 
-    }
+    //}
 
 
 
