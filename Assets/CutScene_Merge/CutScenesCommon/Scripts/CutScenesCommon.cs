@@ -8,7 +8,7 @@ public class CutScenesCommon : MonoBehaviour
 {
     [Header("                                                                  Common Data")]
     [Space(20)]
-    public float  NarrTypingSpeed=0.05f;
+    public float NarrTypingSpeed = 0.05f;
     public Transform Cam;
     public TextMeshProUGUI Narrtext;
     public AudioSource Narr_AS;
@@ -19,10 +19,10 @@ public class CutScenesCommon : MonoBehaviour
     [Space(50)]
     [Header("                                                                  Scene Data")]
     [Space(20)]
-    public string SceneDatas="Scene Data";
+    public string SceneDatas = "Scene Data";
 
     // Start is called before the first frame update
-    public  virtual void Start()
+    public virtual void Start()
     {
         Narrtext.text = "";
 
@@ -46,7 +46,7 @@ public class CutScenesCommon : MonoBehaviour
     public IEnumerator TypingText(string str)
     {
         Narrtext.text = "";
-        
+
         for (int i = 0; i < str.Length; i++)
         {
             Narrtext.text += str[i];
@@ -69,7 +69,7 @@ public class CutScenesCommon : MonoBehaviour
 
 
 
-  public  void SetAmbience(AudioClip clip)
+    public void SetAmbience(AudioClip clip)
     {
 
 
@@ -91,7 +91,7 @@ public class CutScenesCommon : MonoBehaviour
 
 
 
-  public  IEnumerator PlayAudio(AudioClip AC, string str,float initialDelay=0)
+    public IEnumerator PlayAudio(AudioClip AC, string str, float initialDelay = 0)
     {
         yield return new WaitForSeconds(initialDelay);
 
